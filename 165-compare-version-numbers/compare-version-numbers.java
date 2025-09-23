@@ -1,16 +1,22 @@
 class Solution {
     public int compareVersion(String version1, String version2) {
-        String[] v1parts=version1.split("\\.");
-        String[] v2parts=version2.split("\\.");
-        int i=0;
-        while(i<v1parts.length||i<v2parts.length){
-            int num1=i<v1parts.length?Integer.parseInt(v1parts[i]):0;
-            int num2=i<v2parts.length?Integer.parseInt(v2parts[i]):0;
+        int i=0,j=0;
+        int n=version1.length();
+        int m=version2.length();
+        while(i<n||j<m){
+            int num1=0,num2=0;
+            while(i<n&&version1.charAt(i)!='.'){
+                num1=num1*10+(version1.charAt(i)-'0');
+                i++;
+            }
+            while(j<m&&version2.charAt(j)!='.'){
+                num2=num2*10+(version2.charAt(j)-'0');
+                j++;
+            }
             if(num1>num2)return 1;
-            if(num2>num1) return -1;
-            i++;
+            if(num2>num1)return -1;
+            i++;j++;//skip the dot
         }
         return 0;
     }
 }
-       
