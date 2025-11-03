@@ -14,7 +14,7 @@ class Solution {
             }
             swap(nums,i,j);
         }
-        //step 3: reverse the suffix starting from i+1(for smallest possible arrangement)
+        //step 3: reverse the suffix starting from i+1(for smallest possible arrangement next after that permutation)
         reverse(nums,i+1,n-1);
     }
     //swap helper method 
@@ -23,7 +23,7 @@ class Solution {
         nums[i]=nums[j];
         nums[j]=temp;
     }
-    //reverse helper
+    //reverse helper(t0 make the suffix smallest possible)
     private void reverse(int []nums,int start,int end){
         while(start<end){
             swap(nums,start++,end--);
