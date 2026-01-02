@@ -6,7 +6,7 @@ class Solution {
         Set<Integer>seen=new HashSet<>();
         for(int num:nums){
             if(seen.contains(num)){
-                return num;
+                return num;//first duplicate element is the repeated element
             }
             seen.add(num);
         }
