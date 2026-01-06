@@ -1,35 +1,43 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        //better solution
-        //time complexity:o(m+n);we traverse until mid, worst case linear
-        //space complexity:o(1);//no extra merged array
-      int m = nums1.length, n = nums2.length;
-        int total = m + n;
-        int mid = total / 2;
+        //optimal solution
+        //time complexity:
+        //space complexity:
+        int n1 = nums1.length;
+        int n2 = nums2.length;
 
-        int i = 0, j = 0;
-        int count = 0;
-        int prev = 0, curr = 0;
+        // Always binary search on the smaller array
+        if (n1 > n2) return findMedianSortedArrays(nums2, nums1);
 
-        // Traverse until we reach the middle
-        while (count <= mid) {
-            prev = curr;
+        int low = 0, high = n1;
+        int total = n1 + n2;
+        int left = (total + 1) / 2; // left partition size
 
-            if (i < m && (j >= n || nums1[i] <= nums2[j])) {
-                curr = nums1[i];
-                i++;
-            } else {
-                curr = nums2[j];
-                j++;
+        while (low <= high) {
+            int mid1 = (low + high) >> 1;   // partition in nums1
+            int mid2 = left - mid1;         // partition in nums2
+
+            // Left and right boundaries
+            int l1 = (mid1 > 0) ? nums1[mid1 - 1] : Integer.MIN_VALUE;
+            int l2 = (mid2 > 0) ? nums2[mid2 - 1] : Integer.MIN_VALUE;
+            int r1 = (mid1 < n1) ? nums1[mid1] : Integer.MAX_VALUE;
+            int r2 = (mid2 < n2) ? nums2[mid2] : Integer.MAX_VALUE;
+
+            // Valid partition found
+            if (l1 <= r2 && l2 <= r1) {
+                if (total % 2 == 1) {
+                    return (double)Math.max(l1, l2);
+                } else {
+                    return ((double)(Math.max(l1, l2) + Math.min(r1, r2))) / 2.0;
+                }
             }
-            count++;
+            // Adjust binary search
+            else if (l1 > r2) {
+                 high = mid1 - 1;
+            } else {
+                low = mid1 + 1;
+            }
         }
-
-        // Odd length → middle element
-        if (total % 2 == 1) {
-            return curr;
-        }
-        // Even length → average of two middle elements
-        return (prev + curr) / 2.0;
+        return 0.0; // should never reach here
     }
 }
