@@ -14,22 +14,28 @@
  * }
  */
 class Solution {
+     private int maxDiameter = 0;  // global tracker
     public int diameterOfBinaryTree(TreeNode root) {
-       //optimal solution
-       //t.c:o(n)
-        return dfs(root)[1]; // second element is diameter
+      //optimal solution
+      // Time Complexity: O(n) — each node visited once.
+      //Space Complexity: O(h) recursion stack, where h = tree height.
+
+      dfs(root);
+        return maxDiameter;
     }
 
-    // returns {height, diameter}
-    private int[] dfs(TreeNode node) {
-        if (node == null) return new int[]{0, 0};
+    // DFS returns the height of the subtree
+    private int dfs(TreeNode node) {
+        if (node == null) return 0;
 
-        int[] left = dfs(node.left);
-        int[] right = dfs(node.right);
+        int leftHeight = dfs(node.left);
+        int rightHeight = dfs(node.right);
 
-        int height = 1 + Math.max(left[0], right[0]);
-        int diameter = Math.max(left[1], Math.max(right[1], left[0] + right[0]));
+        // update diameter at this node
+        maxDiameter = Math.max(maxDiameter, leftHeight + rightHeight);
 
-        return new int[]{height, diameter};
+        // return height of this subtree
+        return 1 + Math.max(leftHeight, rightHeight);
     }
 }
+
