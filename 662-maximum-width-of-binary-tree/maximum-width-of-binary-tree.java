@@ -15,10 +15,10 @@
  */
  //
  //t.c=o(n);//every node visited once
- //s.c=o(h);//recursive stack+map storing one index per depth
+ //s.c=o(h);//recursive stack+map storing one index per depth, H i sthe height of the tree(log n for balanced,n for skewed)
 class Solution {
-    int ans=0;
-    Map<Integer, Integer>leftmost=new HashMap<>();
+    int ans=0;//keep track of max width found so far
+    Map<Integer, Integer>leftmost=new HashMap<>();//stores first index seen at each deth
     public int widthOfBinaryTree(TreeNode root) {
         dfs(root,0,0);
         return ans;
