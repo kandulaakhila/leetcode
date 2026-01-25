@@ -13,40 +13,22 @@
  *     }
  * }
  */
- //t.c=o(n)
- //s.c=o(n);
- class Pair{
-    TreeNode node;
-    int num;
-    Pair(TreeNode node,int num){
-        this.node=node;
-        this.num=num;
-    }
- }
+ //
+ //t.c=o(n);//every node visited once
+ //s.c=o(h);//recursive stack+map storing one index per depth
 class Solution {
+    int ans=0;
+    Map<Integer, Integer>leftmost=new HashMap<>();
     public int widthOfBinaryTree(TreeNode root) {
-        if(root==null) return 0;
-        int ans=0;//stores max width so far
-        Queue<Pair>q=new LinkedList<>();//bfs queue
-        q.offer(new Pair(root,0));
-        while(!q.isEmpty()){
-            int size=q.size();//no.of nodes in a current level
-            int min=q.peek().num;//smallest index at this level(used to normalise indices to avoid overflow)
-            int first=0,last=0;//track leftmost and right most indices
-            for(int i=0;i<size;i++){
-                int cur_id=q.peek().num-min;//prevent overflow
-                TreeNode node=q.peek().node;
-                q.poll();
-                if(i==0) first=cur_id;//first node in a level
-                if(i==size-1) last=cur_id;//last node in a level
-                //add children to the queue
-                if(node.left!=null)
-                q.offer(new Pair(node.left,cur_id*2+1));
-                if(node.right!=null)
-                q.offer(new Pair(node.right,cur_id*2+2));
-            }
-            ans=Math.max(ans,last-first+1);//width of the current level
-        }
+        dfs(root,0,0);
         return ans;
     }
+    private void dfs(TreeNode node,int depth,int pos){
+    if(node==null) return;//if node is null stop recursion
+    leftmost.putIfAbsent(depth,pos);//store leftmost index at this depth
+    ans=Math.max(ans, pos-leftmost.get(depth)+1);//calculate width at this depth
+    //recursive left and right
+    dfs(node.left,depth+1,pos*2+1);
+    dfs(node.right,depth+1,pos*2+2);
+}
 }
