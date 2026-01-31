@@ -14,24 +14,25 @@
  * }
  */
  //t.c:o(n);
- //s.c:o(h)average,o(n)worst case
+ //s.c:o(1);
 class Solution {
     public void flatten(TreeNode root) {
-        if(root==null) return;
-        Stack<TreeNode> st=new Stack<>();
-        st.push(root);
-        while(!st.isEmpty()){
-            TreeNode cur=st.pop();
-            if(cur.right!=null){
-                st.push(cur.right);
+         TreeNode cur = root;
+        while (cur != null) {
+            if (cur.left != null) {
+                // Find the rightmost node of the left subtree
+                TreeNode prev = cur.left;
+                while (prev.right != null) {
+                    prev = prev.right;
+                }
+                // Connect that rightmost node to current node's right subtree
+                prev.right = cur.right;
+                // Move the left subtree to the right
+                cur.right = cur.left;
+                cur.left = null;
             }
-            if(cur.left!=null){
-                st.push(cur.left);
-            }
-            if(!st.isEmpty()){
-                cur.right=st.peek();
-            }
-            cur.left=null;
-        } 
+            // Move to the next node (always on the right)
+            cur = cur.right;
+        }
     }
 }
