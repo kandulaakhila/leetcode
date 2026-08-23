@@ -5,7 +5,6 @@ class Solution {
 
         // Step 1: Sort the array
         Arrays.sort(nums);
-
         int n = nums.length;
 
         // Step 2: Fix one element
@@ -53,7 +52,6 @@ class Solution {
                     left++;
  } 
                 else {
-
                     // Need a smaller sum
                     right--;
                 }
