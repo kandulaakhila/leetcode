@@ -22,7 +22,6 @@ class Solution {
                 totalCost += 1L * need2 * Math.min(cost2, costBoth);
             }
               }
-
         return totalCost;
     }
 }
