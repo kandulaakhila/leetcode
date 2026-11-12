@@ -23,11 +23,9 @@ class Solution {
                     currentNum++;
                     count++;
                 }
-
                 longest = Math.max(longest, count);
             }
         }
-
         return longest;
     }
 }
